@@ -3,6 +3,11 @@ Mesmer
 
 A simple memoization library for functions's in .NET
 
-Enjoy do with it as you please.
+Usage
+========
+Func<int,int> increment = x => x + 1;
+var memoised = increment.Memoise();
 
-Blair
+int result = memoise(1,2);
+
+
