@@ -19,14 +19,14 @@ end
 desc "Compiles solution and runs unit tests"
 task :default => [:clean, :assembly_info, :compile, :test, :publish, :package]
 
-desc "Executes all Xunit tests"
-task :test => [:xunit]
+desc "Executes all nunit tests"
+task :test => [:nunit]
 
 desc "Compiles solution and runs unit tests for Mono"
 task :mono => [:clean, :assembly_info, :compilemono, :testmono]
 
 desc "Executes all tests with Mono"
-task :testmono => [:xunitmono]
+task :testmono => [:nunitmono]
 
 #Add the folders that should be cleaned as part of the clean task
 CLEAN.include(OUTPUT)
@@ -69,20 +69,20 @@ task :publish => [:compile] do
     FileUtils.cp_r FileList["src/**/#{CONFIGURATION}/*.dll", "src/**/#{CONFIGURATION}/*.XML", "src/**/#{CONFIGURATION}/*.pdb", "src/**/*.ps1"].exclude(/obj\//).exclude(/.Tests/), output
 end
 
-desc "Executes xUnit tests"
-xunit :xunit => [:compile] do |xunit|
+desc "Executes nunit tests"
+nunit :nunit => [:compile] do |nunit|
     tests = FileList["src/**/#{CONFIGURATION}/*.Tests*.dll"].exclude(/obj\//).exclude(/Mesmer.ViewEngines.Razor.Tests.Models/)
 
-    xunit.command = "tools/xunit/xunit.console.clr4.x86.exe"
-    xunit.assemblies = tests
+    nunit.command = "tools/nunit/nunit.console.clr4.x86.exe"
+    nunit.assemblies = tests
 end 
 
-desc "Executes xUnit tests using Mono"
-xunit :xunitmono => [] do |xunit|
+desc "Executes nunit tests using Mono"
+nunit :nunitmono => [] do |nunit|
     tests = FileList["src/**/#{CONFIGURATIONMONO}/*.Tests*.dll"].exclude(/obj\//).exclude(/Mesmer.ViewEngines.Razor.Tests.Models/)
 
-    xunit.command = "tools/xunit/xunitmono.sh"
-    xunit.assemblies = tests
+    nunit.command = "tools/nunit/nunitmono.sh"
+    nunit.assemblies = tests
 end
 
 desc "Zips up the built binaries for easy distribution"
