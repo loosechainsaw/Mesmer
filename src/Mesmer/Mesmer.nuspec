@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>Mesmer</id>
+    <version>0.0.0</version> <!-- The real version will be added by rake -->
+    <authors>Blair Davidson</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Mesmer is a Memoization Library for the .Net platform</description>
+    <summary>Mesmer is a Memoization Library for the .Net platform</summary>
+    <language>en-US</language>
+	<copyright>Blair Davidson</copyright>
+    <licenseUrl>https://github.com/loosechainsaw/Mesmer/blob/master/license.txt</licenseUrl>
+    <projectUrl> http://loosechainsaw.github.io/Mesmer</projectUrl>
+    <tags>Mesmer</tags>
+  </metadata>
+  <files>
+    <file src="build\binaries\Mesmer.dll" target="lib\net40" />
+    <file src="build\binaries\Mesmer.pdb" target="lib\net40" />
+    <file src="src\Mesmer\**\*.cs" target="src" />
+  </files>
+</package>

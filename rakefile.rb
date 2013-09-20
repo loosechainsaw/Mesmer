@@ -73,7 +73,7 @@ desc "Executes nunit tests"
 nunit :nunit => [:compile] do |nunit|
     tests = FileList["src/**/#{CONFIGURATION}/*.Tests*.dll"].exclude(/obj\//).exclude(/Mesmer.ViewEngines.Razor.Tests.Models/)
 
-    nunit.command = "tools/nunit/nunit.console.clr4.x86.exe"
+    nunit.command = "tools/nunit/bin/nunit-console-x86.exe"
     nunit.assemblies = tests
 end 
 
