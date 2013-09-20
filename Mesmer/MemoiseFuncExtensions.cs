@@ -50,7 +50,7 @@ namespace Mesmer
 
 		public static Func<TArg1, TArg2, TResult> Memoise<TArg1, TArg2, TResult> (this Func<TArg1, TArg2, TResult> func)
 		{
-			return Memoise (func, new AtRecordCountFlushMemoizationPolicy (MemoiseDefaults.Value)));
+			return Memoise (func, new AtRecordCountFlushMemoizationPolicy (MemoiseDefaults.Value));
 		}
 
 		public static Func<TArg1, TArg2, TResult> Memoise<TArg1, TArg2, TResult> (this Func<TArg1, TArg2, TResult> func, IMemoizationPolicy policy)
@@ -81,7 +81,7 @@ namespace Mesmer
 
 		public static Func<TArg1, TArg2, TArg3, TResult> Memoise<TArg1, TArg2,TArg3, TResult> (this Func<TArg1, TArg2,TArg3, TResult> func)
 		{
-			return Memoise (func, new AtRecordCountFlushMemoizationPolicy (MemoiseDefaults.Value)));
+			return Memoise (func, new AtRecordCountFlushMemoizationPolicy (MemoiseDefaults.Value));
 		}
 
 		public static Func<TArg1, TArg2, TArg3, TResult> Memoise<TArg1, TArg2,TArg3, TResult> (this Func<TArg1, TArg2,TArg3, TResult> func, IMemoizationPolicy policy)
