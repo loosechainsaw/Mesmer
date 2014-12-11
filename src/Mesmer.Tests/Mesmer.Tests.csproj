@@ -45,7 +45,10 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Calculator.cs" />
     <Compile Include="MesmerTests.cs" />
+    <Compile Include="StatefulObject.cs" />
+    <Compile Include="TimeTrialResults.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
