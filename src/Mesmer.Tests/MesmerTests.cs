@@ -5,56 +5,57 @@ using NUnit.Framework;
 
 namespace Mesmer.Tests
 {
-
     [TestFixture]
     public class MesmerTests
     {
-
-        int Fibonacci(int n)
-        {
-            if (n == 0) return 0;
-            if (n == 1) return 1;
-
-            return Fibonacci(n - 1) + Fibonacci(n - 2);
-        }
-
         [Test]
         public void FibonacciExampleMemoised()
         {
+            Func<int, long> f = Calculator.Fibonacci;
+            var memoisedFibonacci = f.Memoise();
 
-            var watch = new Stopwatch();
-            watch.Start();
+            var memoisedResults = Run100Times(memoisedFibonacci);
+            var nonMemoisedResults = Run100Times(Calculator.Fibonacci);
 
-            Func<int, int> f = Fibonacci;
-            var m = f.Memoise();
+            Console.WriteLine("memoisedDuration Took: " + memoisedResults.Duration);
+            Console.WriteLine("nonMemoisedDuration Took: " + nonMemoisedResults.Duration);
+            Assert.Less(memoisedResults.Duration, nonMemoisedResults.Duration);
 
-            var result = 0;
-
-            Enumerable.Range(0,1000)
-                      .ToList()
-                      .ForEach(_ => result = m(40));
-            
-            watch.Stop();
-
-            Console.WriteLine("Result: " + result + " Took: " + watch.ElapsedMilliseconds + " milliseconds");
+            CollectionAssert.AreEqual(memoisedResults.Results, nonMemoisedResults.Results);
         }
 
         [Test]
-        public void FibonacciExampleNonMemoised()
+        public void CanNotCaterforStatefulFunctions()
         {
+            var obj1 = new StatefulObject();
+            var obj2 = new StatefulObject();
+            Func<int, long> f = obj1.AddNumber;
+            var memoisedObjectMethod = f.Memoise();
 
+            var memoisedResults = Run100Times(memoisedObjectMethod);
+            var nonMemoisedResults = Run100Times(obj2.AddNumber);
+
+            Console.WriteLine("memoisedDuration Took: " + memoisedResults.Duration);
+            Console.WriteLine("nonMemoisedDuration Took: " + nonMemoisedResults.Duration);
+            Assert.Less(memoisedResults.Duration, nonMemoisedResults.Duration);
+            //they wont be equal because we are inhibiting state changes
+            CollectionAssert.AreNotEqual(memoisedResults.Results, nonMemoisedResults.Results);
+        }
+
+        private static TimeTrialResults Run100Times(Func<int, long> action)
+        {
+            var results = new TimeTrialResults();
             var watch = new Stopwatch();
             watch.Start();
 
-            Func<int, int> f = Fibonacci;
-            var result = 0;
-            Enumerable.Range(0, 10)
-                      .ToList()
-                      .ForEach(_ => result = f(40));
+            results.Results = Enumerable.Repeat(Enumerable.Range(30, 10), 10)
+                .SelectMany(x => x)
+                .Select(x => new CalcResult { Input = x, Result = action(x) })
+                .ToList();
 
             watch.Stop();
-
-            Console.WriteLine("Result: " + result + " Took: " + watch.ElapsedMilliseconds + " milliseconds");
+            results.Duration = watch.Elapsed;
+            return results;
         }
     }
 }
